@@ -1,0 +1,201 @@
+/* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background:azure;
+}
+
+.container {
+  position:absolute;
+  max-width: 800px;
+  top:10%;
+  margin-top:4%;
+  width: 100%;
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+
+}
+
+.headcontainer {
+  position: fixed;
+  top: .25em;
+  right: 1em;
+  margin-right:0%;
+  max-width: 350px;  
+  text-align: right;
+  width: 100%;
+  background:none;
+  padding: 2px;
+ 
+}
+.smallpage
+{
+  position: fixed;
+  max-width: 500px;
+  width: 100%;
+  top: .25em;
+  margin-top:5%;
+  background: #fff;
+  padding: 25px;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border: 8px double rgb(0, 128, 64);
+
+}
+
+.widepage
+{
+  position: relative;
+  max-width: 1000px;
+  margin-top:5%;
+  width: 100%;
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.container header {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: 500;
+  text-align: center;
+}
+.container .form {
+  margin-top: 30px;
+}
+
+.fldgroup {
+    clear:both;
+    margin: 2px;
+    width:100%;
+    background:none;
+    margin-bottom: 1px;
+    margin-top: 1px;
+}
+
+.input-box1 {
+  float:left;
+  width:50%;
+  margin: 10px;
+}
+
+.input-box1 span {
+  width:28%;
+  display:inline-block;
+
+}
+
+.input-box1 input {
+position: relative;
+width:70%;
+}
+
+.input-box1 select {
+position: relative;
+width:70%;
+}
+
+.input-box2 {
+    width:43%;
+    float:right;
+    margin: 10px;
+}
+
+.input-box2 span {
+  width:35%;
+  display:inline-block;
+}
+
+.input-box2 input {
+position: relative;
+width:60%;
+}
+
+.status-box {
+    width:43%;
+    float:right;
+    margin: 10px;
+  }
+
+
+.status-box span {
+  width:35%;
+  display:inline-block;
+ }
+.form :where(.status-option, .status) { 
+  display:flex;
+  align-items: left;
+  column-gap: 10px;
+  margin-left:20px;
+  width:60%;
+  position: relative;
+  background-color:coral;
+}
+.form .status {  
+  column-gap: 5px;
+}
+.status input {
+  accent-color: rgb(130, 106, 251);
+}
+.form :where(.status input, .status label) {
+  cursor: pointer;
+}
+
+
+.input-box3 {
+  float:left;
+  width:100%;
+  margin-bottom: 20px;
+
+}
+
+.input-box3 span {
+	float:left;
+	  width:10%;
+	  	clear:right;
+	  min-height: 7vh;
+ margin-left:20%;
+background-color:darkgrey
+}
+
+.input-box3 input {
+	clear:left;
+	 margin-left:0%;
+	  display:inline-block;
+position: relative;
+width:50%;
+
+}
+
+.input-box3 button {
+width:30%;
+}
+
+.fldgroup.part-1 {
+  width:65%;
+  float:left;
+  margin-left: 10%;
+}
+
+.fldgroup.part-2 {
+  width:16%;
+  display:inline-block;
+  position: relative;
+  margin-right: 5%;
+}
+
+
+

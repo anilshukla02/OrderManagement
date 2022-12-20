@@ -1,0 +1,27 @@
+body {
+  --gap: 1rem;
+  font-family: ui-sans-serif, system-ui, snas-serif;
+}
+
+.context2 {
+  border: 0;
+  float: right;
+  color: green;
+  padding: calc(var(--gap) / 2) var(--gap);
+  font-size: 50%
+
+}
+
+button {
+  background-color: hsl(90, 50%, 30%);
+  border: 0;
+  color: hsl(90, 50%, 95%);
+  margin-block-start: var(--gap);
+  padding: calc(var(--gap) / 2) var(--gap);
+}
+button.listening {
+  background-color: hsl(0, 50%, 50%);
+  color: hsl(0, 50%, 95%);
+}
+
+

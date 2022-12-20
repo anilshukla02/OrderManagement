@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Login Form</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" th:href="@{/css/userstyle.css}" />
+</head>
+
+<body>
+	<div class="smallpage">
+		<h3 style="background-color:coral;color:azure;text-align:center;margin-left:0%;">Login
+			<h3 />
+
+			<form name="lform" th:action="@{/login}" method="POST">
+				<div class="fldgroup">
+					<div class="input-box3">
+						<span class="input-group-addon"><i class="fas fa-user"></i></span>
+						<input type="text" class="form-control" id="userid" name="userid" placeholder="User Id" />
+					</div>
+				</div>
+
+				<div class="fldgroup">
+
+					<div class="input-box3">
+						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+						<input type="password" class="form-control" id="password" name="password"
+							placeholder="Password" />
+					</div>
+				</div>
+				<div class="fldgroup" align="center">
+					<div class="input-box3">
+						<button type="submit" class="btn btn-primary login-btn btn-block" size="10">Sign in</button>
+					</div>
+				</div>
+			</form>
+			<div class="fldgroup">
+				<div th:if="${param.error}">
+					<p style="color:red;text-align:left;font-size: .5em;">
+						Invalid username and password.
+					</p>
+				</div>
+				<div th:if="${param.logout}">
+					You have been logged out.
+				</div>
+			</div>
+	</div>
+</body>
+
+</html>

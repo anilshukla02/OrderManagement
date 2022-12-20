@@ -1,0 +1,81 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<title>User Management</title>
+	<link rel="stylesheet" type="text/css"
+		href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/datatables.min.css" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+
+<body>
+	<div th:replace="fragments/pagehead"></div>
+	<div class="widepage">
+		<h2> Users List </h2>
+		<hr />
+		<a th:href="@{addUserForm}" class="btn btn-primary mb-2">Add User</a>
+		<table class="table table-bordered table-striped" id="users-table">
+
+			<thead>
+				<tr>
+					<th>Login Id</th>
+					<th>User Name</th>
+					<th>Language</th>
+					<th>User Status</th>
+					<th>Role</th>
+					<th>Action</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user: ${users}">
+					<td th:text="${user.userid}"></td>
+					<td th:text="${user.uname}"></td>
+					<td th:text="${user.preflang}"></td>
+					<td th:text="${user.active}"></td>
+					<td id="roles"></td>
+
+					<script th:inline="javascript">
+						var arr = /*[[${user.roles}]]*/[];
+						var arr2 = "";
+						for (let i = 0; i < arr.length; i++) {
+							if (arr2 == "")
+								arr2 = arr[i].rolename;
+							else
+								arr2 = arr[i].rolename + ", " + arr2;
+
+						}
+						document.getElementById("roles").innerHTML = arr2;
+					</script>
+
+					<td>
+						<a th:href="@{showUserUpdateForm(userid=${user.userid})}" class="btn btn-info">Update</a>
+						<a th:href="@{showUserDeletForm(userid=${user.userid})}" class="btn btn-danger" ml-2>Delete</a>
+					</td>
+				</tr>
+			</tbody>
+
+		</table>
+			<div th:if="${param.error}">
+		<p style="color:red;text-align:left;font-size: 1em;">
+			Logged In user cannot be deleted.
+		</p>
+	</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/datatables.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("#users-table").DataTable({
+				'aoColumnDefs': [{
+					'bSortable': false,
+					'aTargets': [-1]
+				}]
+			});
+		})
+	</script>
+
+</body>
+
+</html>

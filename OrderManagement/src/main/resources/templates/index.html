@@ -1,0 +1,65 @@
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Add/Configure User</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" th:href="@{/css/userstyle.css}" />
+</head>
+
+<body>
+	<div th:replace="fragments/pagehead"></div>
+	<div class="container">
+		<div class="form-group">
+			<h2 style="width:60%; float:left;color:green;margin-bottom:0%"> Order Management </h2>
+			<div style="width:25%; float:right;margin-right:0%;margin-bottom:0%">
+				<span sec:authentication="principal.authorities"></span>
+			</div>
+			<div style="width:100%; float:left;color:green;margin-top:0%" />
+			<hr />
+
+		</div>
+
+		<table class="table table-borderless table-sm" id="menu-table">
+			<thead>
+				<tr>
+					<div sec:authorize="hasAuthority('ADMIN')">
+						<th>Administration</th>
+					</div>
+					<div sec:authorize="hasAuthority('USER')">
+						<th>Transaction</th>
+					</div>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<div sec:authorize="hasAuthority('ADMIN')">
+						<td><a href="/api/users">User Administration</a></td>
+					</div>
+					<div sec:authorize="hasAuthority('USER')">
+						<td><a href="/api/orders">Orders</a></td>
+					</div>
+				</tr>
+				<tr>
+					<div sec:authorize="hasAuthority('ADMIN')">
+						<td><a href="#">Company Configuration</a></td>
+					</div>
+					<div sec:authorize="hasAuthority('USER')">
+						<td><a href="/api/items">Items</a></td>
+					</div>
+				</tr>
+
+				<tr>
+					<div sec:authorize="hasAuthority('ADMIN')">
+						<td><a href="/api/customers">Customers Configuration</a></td>
+					</div>
+				</tr>
+			</tbody>
+
+		</table>
+
+</html>

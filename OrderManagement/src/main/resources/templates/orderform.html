@@ -1,0 +1,84 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<title>Order Form</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/tts.js}"></script>
+	<script type="text/javascript" th:src="@{/js/stt.js}"></script>
+	<link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+
+<body>
+	<div th:replace="fragments/pagehead"></div>
+	<div class="widepage">
+		<h2> Add/Update Order </h2>
+		<hr />
+
+		<form name="orderform" th:action="@{saveorder}" th:object="${myorderitems}" autocomplete="off" method="POST"
+			style="margin-bottom:1px;margin-top:1px;margin-left:20px;">
+			<fieldset>
+				<div>
+					<select th:field="*{custId}" />
+					<option th:each="customer : ${allCustomers}" th:value="${customer.custId}"
+						th:utext="|${customer.custname}|"
+						th:selected="${customer.custname}==${myorderitems.customername}"></option>
+					</select>
+					<button type="button" class="btn btn-secondary btn-sm" id="toggle">Toggle listening</button>
+					<code id="result">live transcript here ...</code>
+				</div>
+
+				<table class="table table-bordered table-striped" id="items-table"
+					style="margin-bottom:1px;margin-top:1px;">
+					<thead>
+						<tr>
+							<th>Item Name </th>
+							<th>Quantity</th>
+							<th>Comments/Order Instructions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<script>let hasInvalidItem = false; </script>
+						<tr th:each="currentClient, stat : *{orderedItemlist}">
+
+							<div> <input type="hidden" name="itemid" id="itemid"
+									th:field="*{orderedItemlist[__${stat.index}__].orderItemsIdentity.itemId}" />
+							</div>
+							<div> <input type="hidden" name="orderId" id="orderId"
+									th:field="*{orderedItemlist[__${stat.index}__].orderItemsIdentity.orderId}" />
+							</div>
+
+							<div th:if="*{orderedItemlist[__${stat.index}__].orderItemsIdentity.itemId} < 0">
+								<script>hasInvalidItem = true; </script>
+							</div>
+
+							<td> <input type="text" name="ItemName" id="ItemName"
+									th:field="*{orderedItemlist[__${stat.index}__].ItemName}" th:style="*{orderedItemlist[__${stat.index}__].orderItemsIdentity.itemId} < 0 ? 
+							         'background:yellow;' : 'background:transparent;'" />
+							</td>
+
+							<td> <input type="text" th:field="*{orderedItemlist[__${stat.index}__].qty}"
+									th:value="${currentClient.qty}" /> </td>
+							<td> <input type="text" th:field="*{orderedItemlist[__${stat.index}__].comments}" />
+
+							</td>
+
+						</tr>
+						<script>
+							if (hasInvalidItem) {speak("Items in Yellow are not in our database");} 
+						</script>
+
+					</tbody>
+				</table>
+
+				<button class="btn btn-primary" id="orderbtn" type="submit"
+					style="margin-bottom:1px;margin-top:1px;">Save</button>
+			</fieldset>
+		</form>
+		<hr />
+		<a th:href="@{orders}"> Back To Order List..</a>
+	</div>
+</body>
+
+</html>

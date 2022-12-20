@@ -1,0 +1,66 @@
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<title>Order Form</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/tts.js}"></script>
+	<script type="text/javascript" th:src="@{/js/stt.js}"></script>
+	<link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+
+<body>
+	<div th:replace="fragments/pagehead"></div>
+	<div class="widepage">
+
+		<h3 style="color:green"> Congratulations !! Here is your Order summary </h3>
+		<hr />
+
+		<form name="orderform" th:action="@{saveorder}" th:object="${myorderitems}" method="POST">
+			<fieldset>
+				<div>
+					<label>Customer:
+						<input type="text" th:field="${myorderitems.customername}" id="customername" name = "customername" size="32" placeholder="Customer Name:"
+							class="form-control col-4 mb-4" float:"right" />
+					</label>
+
+				<table class="table table-bordered table-striped" id="items-table">
+					<thead>
+						<tr>
+							<th>Item Name </th>
+							<th>Quantity</th>
+							<th>Comments/Order Instructions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="currentClient, stat : *{orderedItemlist}">
+
+							<div> <input type="hidden" name="itemid" id="itemid"
+									th:field="*{orderedItemlist[__${stat.index}__].orderItemsIdentity.itemId}" />
+							</div>
+
+							<td> <input type="text" name="ItemName" id="ItemName"
+									th:field="*{orderedItemlist[__${stat.index}__].ItemName}" />
+							</td>
+
+							<td> <input type="text" th:field="*{orderedItemlist[__${stat.index}__].qty}"
+									th:value="${currentClient.qty}" /> </td>
+							<td> <input type="text" th:field="*{orderedItemlist[__${stat.index}__].comments}" /></td>
+
+						</tr>
+						<script>
+							speak("Congratulations Your Order has been accepted - Here is your order summary");
+						</script>
+
+					</tbody>
+				</table>
+
+			</fieldset>
+		</form>
+		<hr />
+		<a th:href="@{orders}"> Back To Order List..</a>
+	</div>
+</body>
+
+</html>

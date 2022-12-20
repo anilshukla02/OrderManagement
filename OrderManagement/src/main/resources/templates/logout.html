@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Logged Out Successfully</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" th:href="@{/css/userstyle.css}" />
+</head>
+<body>
+    <div class="smallpage">
+        <h3>You have Logged out successfully!</h3>
+        <h4><a th:href="@{/api/login}">Click here to Login</a></h4>
+    </div>
+</body>
+</html>

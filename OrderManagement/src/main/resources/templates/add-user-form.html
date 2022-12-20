@@ -1,0 +1,74 @@
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Add/Configure User</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" th:href="@{/css/userstyle.css}" />
+</head>
+
+<body>
+	<div th:replace="fragments/pagehead"></div>
+	<div class="container">
+
+		<h2> Add User</h2>
+		<hr />
+		<form th:action="@{saveUser}" th:object="${user}" method="POST">
+			<div class="fldgroup">
+				<div class="input-box1">
+					<span> Login Id: </span>
+					<input type="text" th:field="*{userid}" placeholder="Enter a unique userId" th:id="userid" />
+				</div>
+
+				<div class="input-box2">
+					<span> User Name: </span>
+					<input type="text" th:field="*{uname}" placeholder="Enter Your Name" th:id="uname" />
+				</div>
+			</div>
+			<div class="fldgroup">
+				<div class="input-box1">
+					<span> Password: </span>
+					<input type="password" th:field="*{password}" placeholder="Enter Password" th:id="password" />
+				</div>
+				<div class="input-box2">
+					<span> User Role: </span>
+					<input type="text" th:field="*{roles}" placeholder="Enter Role" th:id="role" disabled />
+				</div>
+			</div>
+
+			<div class="fldgroup">
+				<div class="input-box1">
+					<span>Language:</span>
+					<select th:id="preflang" th:field="*{preflang}">
+						<option th:each="language : ${languages}" th:value="${language.langcode}"
+							th:utext="|${language.langname} -  ${language.langaccent}|" />
+					</select>
+				</div>
+
+				<div class="status-box">
+					<span>User Status</span>
+					<div class="status-option">
+						<div class="status">
+							<input type="radio" th:field="*{active}" th:value="1" th:id="userstatus" checked />
+							<label for="check-active">Active</label>
+						</div>
+						<div class="status">
+							<input type="radio" th:field="*{active}" th:value="0" th:id="active" />
+							<label for="check-inactive">Inactive</label>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+			<button class="btn btn-primary" type="submit">Save</button>
+		</form>
+		<hr />
+		<a th:href="@{users}"> Back to list</a>
+	</div>
+
+</body>
+
+</html>
