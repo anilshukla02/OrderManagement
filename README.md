@@ -26,6 +26,7 @@ Initial Setup:
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 3.5) Create company table. This has no UI as it's a static company configuration i.e. in future, this can be used for s/w licence validation
+
             CREATE TABLE `company` (
               `company_id` varchar(255) NOT NULL,
               `company_name` varchar(255) DEFAULT NULL,
