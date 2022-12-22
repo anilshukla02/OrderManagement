@@ -25,6 +25,19 @@ Initial Setup:
           PRIMARY KEY (`userid`)
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+3.5) Create company table. This has no UI as it's a static company configuration i.e. in future, this can be used for s/w licence validation
+            CREATE TABLE `company` (
+              `company_id` varchar(255) NOT NULL,
+              `company_name` varchar(255) DEFAULT NULL,
+              `licence_no` varchar(255) DEFAULT NULL,
+              `licence_validity` date DEFAULT NULL,
+              PRIMARY KEY (`company_id`)
+            ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+            INSERT INTO `nirmalyalabs`.`company`
+            (`company_id`,`company_name`,`licence_no`,`licence_validity`)
+            VALUES ('INOV','My Inventory Comany','LIC-001','20-04-2030');
+
 4) User password in above table should be Bcrypt encoded
     https://bcrypt-generator.com/
 
