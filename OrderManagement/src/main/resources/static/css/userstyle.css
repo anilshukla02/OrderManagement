@@ -197,5 +197,9 @@ width:30%;
   margin-right: 5%;
 }
 
-
+htable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+}
 

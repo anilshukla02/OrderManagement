@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +26,7 @@ import com.nirmalyalabs.voicerecognition.Entity.CustomerDTO;
 import com.nirmalyalabs.voicerecognition.Entity.language;
 import com.nirmalyalabs.voicerecognition.Entity.ops;
 import com.nirmalyalabs.voicerecognition.Entity.opsDTO;
-
+import com.nirmalyalabs.voicerecognition.Service.CompanyService;
 import com.nirmalyalabs.voicerecognition.Service.CustomerService;
 import com.nirmalyalabs.voicerecognition.Service.ItemsService;
 import com.nirmalyalabs.voicerecognition.Service.LanguageService;
@@ -36,6 +38,9 @@ import com.nirmalyalabs.voicerecognition.Service.opsService;
 @RequestMapping("/api")
 public class ItemController {
 
+	@Autowired
+	CompanyService companyService;
+	
 	@Autowired
 	ItemsService itemsService;
 
@@ -68,9 +73,16 @@ public class ItemController {
 
 // HOMEPAGE....
 	@GetMapping("/index")
-	public String landingpage() {
+	public String landingpage(HttpSession session) {
+		session.setAttribute("company", companyService.GetCompany().getCompanyName());
 		return "index";
 	}
+	
+	// HOMEPAGE....
+		@GetMapping("/ph")
+		public String testing() {
+			return "pagehead";
+		}
 
 // ITEMS...
 	@GetMapping("/items")
