@@ -1,8 +1,9 @@
 # OrderManagement
 This is a simple Order acceptence system with integrated voice recognization. 
 Application has user page to choose a language of your choice for speech recognization.
+Item names will appear based on logged in user's language.
+Application uses mymemory translation API's. http://api.mymemory.translated.net/get
 Tech Stack: Spring Boot, Security with MySQL DB. 
-MySQL schema name 'nirmalyalabs' has been used in this application configuration. Replace this with your MYSQL schema name.
 
 Initial Setup:
 1) Run DBsetup.sql on your mysql admin login instance. This file will do following setup:
