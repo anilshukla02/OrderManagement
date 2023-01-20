@@ -33,10 +33,24 @@
 					<span> Password: </span>
 					<input type="password" th:field="*{password}" placeholder="Enter Password" th:id="password" />
 				</div>
+				<!--
 				<div class="input-box2">
 					<span> User Role: </span>
-					<input type="text" th:field="*{roles}" placeholder="Enter Role" th:id="role" disabled />
+					<label class="checkbox-inline">
+						<input type="checkbox" name="optradio" checked="true" style="padding-left:5px;"><span>Admin</span>
+					</label>
+					<label class="checkbox-inline" style="padding-left:30px;">
+						<input type="checkbox" name="optradio" style="padding-left:15px;"><span>User</span>
+					</label>
 				</div>
+-->
+				<p>
+					<span style="padding-left:23px;">User Role: </span>
+					<input type="checkbox" name="roles" th:each="role : ${allRoles}" th:text="${role.rolename}"
+						th:value="${role.rolename}" th:field="*{roles}" style="padding-left:15px;" />
+
+				<p>
+
 			</div>
 
 			<div class="fldgroup">
@@ -62,7 +76,7 @@
 					</div>
 				</div>
 			</div>
-	
+
 			<button class="btn btn-primary" type="submit">Save</button>
 		</form>
 		<hr />

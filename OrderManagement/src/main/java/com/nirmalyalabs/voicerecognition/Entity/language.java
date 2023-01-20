@@ -23,6 +23,7 @@ public class language {
 	private String langname;
 	@Column(name="lang_accent")
 	private String langaccent;
+	
 	public String getLangcode() {
 		return langcode;
 	}

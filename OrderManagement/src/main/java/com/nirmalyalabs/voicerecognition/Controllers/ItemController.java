@@ -2,7 +2,11 @@ package com.nirmalyalabs.voicerecognition.Controllers;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,12 +21,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nirmalyalabs.voicerecognition.Entity.Customer;
+import com.nirmalyalabs.voicerecognition.Entity.CustomerDTO;
 import com.nirmalyalabs.voicerecognition.Entity.ItemMaster;
 import com.nirmalyalabs.voicerecognition.Entity.Myuser;
 import com.nirmalyalabs.voicerecognition.Entity.OrderMasterDTO;
 import com.nirmalyalabs.voicerecognition.Entity.Ordermaster;
-import com.nirmalyalabs.voicerecognition.Entity.Customer;
-import com.nirmalyalabs.voicerecognition.Entity.CustomerDTO;
+import com.nirmalyalabs.voicerecognition.Entity.Role;
 import com.nirmalyalabs.voicerecognition.Entity.language;
 import com.nirmalyalabs.voicerecognition.Entity.ops;
 import com.nirmalyalabs.voicerecognition.Entity.opsDTO;
@@ -32,7 +40,9 @@ import com.nirmalyalabs.voicerecognition.Service.ItemsService;
 import com.nirmalyalabs.voicerecognition.Service.LanguageService;
 import com.nirmalyalabs.voicerecognition.Service.MyUserService;
 import com.nirmalyalabs.voicerecognition.Service.OrdermasterService;
+import com.nirmalyalabs.voicerecognition.Service.RoleService;
 import com.nirmalyalabs.voicerecognition.Service.opsService;
+import com.nirmalyalabs.voicerecognition.Utilities.General.GeneralUtilities;
 
 @Controller
 @RequestMapping("/api")
@@ -40,12 +50,18 @@ public class ItemController {
 
 	@Autowired
 	CompanyService companyService;
-	
+
+	@Autowired
+	GeneralUtilities generalUtilities;
+
 	@Autowired
 	ItemsService itemsService;
 
 	@Autowired
 	MyUserService myUserService;
+
+	@Autowired
+	RoleService roleService;
 
 	@Autowired
 	CustomerService customerService;
@@ -77,12 +93,12 @@ public class ItemController {
 		session.setAttribute("company", companyService.GetCompany().getCompanyName());
 		return "index";
 	}
-	
+
 	// HOMEPAGE....
-		@GetMapping("/ph")
-		public String testing() {
-			return "pagehead";
-		}
+	@GetMapping("/ph")
+	public String testing() {
+		return "fragments/pagehead";
+	}
 
 // ITEMS...
 	@GetMapping("/items")
@@ -99,12 +115,13 @@ public class ItemController {
 		ModelAndView mav = new ModelAndView("add-item-form");
 		ItemMaster itemMaster = new ItemMaster();
 		mav.addObject("item", itemMaster);
+		// mav.addObject("languages", languageService.getAllSupportedLangCodes());
 		return mav;
-
 	}
 
 	@PostMapping("/saveItem")
 	public String saveItem(@ModelAttribute("item") ItemMaster itemMaster) {
+
 		itemsService.saveItem(itemMaster);
 		return "redirect:/api/items";
 	}
@@ -181,8 +198,19 @@ public class ItemController {
 	@GetMapping("/users")
 	public ModelAndView showUsers() {
 		ModelAndView mav = new ModelAndView("listusers");
-		List<Myuser> list = myUserService.getAllUsers();
-		mav.addObject("users", list);
+		List<Myuser> userlist = myUserService.getAllUsers();
+
+		for (Myuser user : userlist) {
+			if (user.getRoles().isEmpty()) {
+				Role role = new Role();
+				role.setRolename("No Role");
+				Set<Role> set = new HashSet<Role>();
+				set.add(role);
+				user.setRoles(set);
+			}
+		}
+
+		mav.addObject("users", userlist);
 		return mav;
 
 	}
@@ -192,6 +220,10 @@ public class ItemController {
 		ModelAndView mav = new ModelAndView("add-user-form");
 		Myuser user = new Myuser();
 		mav.addObject("user", user);
+
+		List<Role> roles = (List<Role>) roleService.getAllRoles();
+		mav.addObject("allRoles", roles);
+
 		List<language> languages = languageService.getAllLanguages();
 		mav.addObject("languages", languages);
 		return mav;
@@ -212,6 +244,10 @@ public class ItemController {
 		Myuser myuser = myUserService.GetUserByID(userid);
 		System.out.println("Anil Debug updation: " + myuser);
 		mav.addObject("user", myuser);
+
+		List<Role> roles = (List<Role>) roleService.getAllRoles();
+		mav.addObject("allRoles", roles);
+
 		List<language> languages = languageService.getAllLanguages();
 		mav.addObject("languages", languages);
 		return mav;
@@ -234,6 +270,7 @@ public class ItemController {
 	@GetMapping("/orders")
 	public ModelAndView showOrders() {
 		ModelAndView mav = new ModelAndView("listorders");
+
 		List<Ordermaster> allOrders = ordermasterService.getAllOrders();
 		List<OrderMasterDTO> list = new ArrayList<>();
 
@@ -270,9 +307,25 @@ public class ItemController {
 			} else {
 				Ordermaster ordermaster = ordermasterService.GetOrdermasterById(Long.parseLong(orderId));
 				List<ops> allOrderItems = opsservice.getAllOrdersByOrderId(Long.parseLong(orderId));
+				for (ops orderitem : allOrderItems) {
+					long itemcd = orderitem.getOrderItemsIdentity().getItemId();
+					String aliases = itemsService.GetItemByID(itemcd).getItemAlias();
+
+					Map<String, String> map = new HashMap<String, String>();
+					ObjectMapper mapper = new ObjectMapper();
+					if (aliases != null) {
+						try {
+							map = mapper.readValue(aliases, map.getClass());
+							orderitem.setItemName(map.get(generalUtilities.getUserLanguage()));
+						} catch (JsonMappingException e) {
+							System.out.println("Exception while reading Item alias");
+						} catch (JsonProcessingException e) {
+							System.out.println("Exception while reading Item alias");
+						}
+					}
+				}
 				myOrderItems.setOrderedItemlist(allOrderItems);
 				myOrderItems.setCustId(ordermaster.getCustid());
-
 			}
 		}
 
@@ -301,7 +354,8 @@ public class ItemController {
 
 		if (opsservice.validateOrderItems(orderItemsList)) {
 			// Has all valid items. So save the order.
-			opsservice.saveOrder(orderItemsList, myOrderItems.getCustId());
+			long orderId = opsservice.saveOrder(orderItemsList, myOrderItems.getCustId());
+			redirectAttributes.addAttribute("orderId", orderId);
 			return "redirect:/api/showOrder";
 		} else {
 			// show order form with marked invalid items
@@ -314,11 +368,40 @@ public class ItemController {
 	public ModelAndView showOrder(@RequestParam(required = false) final String orderId) {
 
 		ModelAndView mav = new ModelAndView("view-order");
-		this.myOrderItems.setCustomername(customerService.GetCustomerByID(this.myOrderItems.getCustId()).getCustname());
-		mav.addObject("myorderitems", this.myOrderItems);
+		opsDTO myOrderItems = new opsDTO();
+
+		Ordermaster ordermaster = ordermasterService.GetOrdermasterById(Long.parseLong(orderId));
+		List<ops> allOrderItems = opsservice.getAllOrdersByOrderId(Long.parseLong(orderId));
+
+		// Item name should be in user language. Update item names to preferred language
+		// before display
+		for (ops orderitem : allOrderItems) {
+			long itemcd = orderitem.getOrderItemsIdentity().getItemId();
+			String aliases = itemsService.GetItemByID(itemcd).getItemAlias();
+
+			Map<String, String> map = new HashMap<String, String>();
+			ObjectMapper mapper = new ObjectMapper();
+			if (aliases != null) {
+				try {
+					map = mapper.readValue(aliases, map.getClass());
+					orderitem.setItemName(map.get(generalUtilities.getUserLanguage()));
+				} catch (JsonMappingException e) {
+					System.out.println("Exception while reading Item alias");
+				} catch (JsonProcessingException e) {
+					System.out.println("Exception while reading Item alias");
+				}
+			}
+		}
+
+		myOrderItems.setOrderedItemlist(allOrderItems);
+		myOrderItems.setCustId(ordermaster.getCustid());
+
+		myOrderItems.setCustomername(customerService.GetCustomerByID(myOrderItems.getCustId()).getCustname());
+		mav.addObject("myorderitems", myOrderItems);
 		return mav;
 
 	}
+
 
 // LOGINS...
 	@GetMapping(value = { "/login", "/" })

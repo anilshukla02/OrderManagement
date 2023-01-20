@@ -1,10 +1,15 @@
-const speak = (text = "") => {
-	var msg = new SpeechSynthesisUtterance(text);
-	msg.voice = window.speechSynthesis.getVoices()[3];
-	msg.voiceURI = 'native';
-	//    msg.lang = 'en-US';
-	msg.lang = 'hi-IN';
-	window.speechSynthesis.speak(msg);
+function speak(text = "")  {
+
+   // translate(text,localStorage.getItem('userLang'));
+   
+    if(!text) return;
+
+	var utterance = new SpeechSynthesisUtterance(text);
+	var lang = localStorage.getItem('userLang');
+	utterance.lang = lang;
+	utterance.voiceURI = 'native';
+
+	window.speechSynthesis.speak(utterance);
 }
 
 // need to call this once to load the voices before hand

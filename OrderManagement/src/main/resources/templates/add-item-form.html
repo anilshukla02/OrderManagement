@@ -4,28 +4,62 @@
 	<title>Add/Update Items </title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/stt.js}"></script>
+	<script type="text/javascript" th:src="@{/js/translate.js}"></script>
+
 </head>
 
 <body>
-<div th:replace="fragments/pagehead"></div>
-	<div class="container">
+	<div th:replace="fragments/pagehead"></div>
+	<div class="container px-4">
+		<h2> Add/update Item</h2>
 
-		<h2> Add Item</h2>
-		<hr />
 		<form th:action="@{saveItem}" th:object="${item}" method="POST">
-			<input type="text" th:field="*{itemname}" placeholder="Enter name" class="form-control col-4 mb-4" />
-			<input type="text" th:field="*{description}" placeholder="Enter Description"
-				class="form-control col-4 mb-4" />
-			<input type="text" th:field="*{itemAlias}" placeholder="Enter Item Alias's' separated by comma"
-				class="form-control col-4 mb-4" />
-			<div class="form-group">
-				<label for="qty">Item Quantity:</label>
-				<input type="text" th:field="*{qty}" placeholder="Enter quantity" class="form-control" id="qty" />
+			<button type="button" class="btn btn-secondary btn-sm" id="toggle">Toggle listening</button>
+			<code id="result">live transcript here ...</code>
+			<hr />
+
+			<div class="row gx-10">
+				<div class="col-md-4 px-3">
+					<label for="itemname" class="font-weight-bold">Item Name:</label>
+					<input type="text" th:field="*{itemname}" id="itemname" placeholder="Enter Item Name"
+						class="form-control" onblur="doIt(this)" />
+				</div>
+
+				<div class="col-md-2 p5">
+					<label for="itemCat" class="form-label">Item Category</label>
+					<input type="text" th:field="*{itemCat}" id="itemCat" placeholder="Enter Item Category"
+						class="form-control">
+				</div>
+
+				<div class="col-md-2">
+					<label for="qty" class="form-label">Item Quantity:</label>
+					<input type="text" th:field="*{qty}" placeholder="Enter quantity" class="form-control" id="qty" />
+				</div>
 			</div>
-			<br />
+
+			<div class="col-8">
+				<label for="description" class="form-label">Item Description:</label>
+				<input type="text" th:field="*{description}" placeholder="Enter Description" class="form-control"
+					id="description" />
+			</div>
+
+			<div class="form-outline w-75 mb-4">
+				<label for="itemAlias" class="form-label">Item Alias:</label>
+				<textarea th:field="*{itemAlias}" placeholder="Enter Item Alias's' separated by comma"
+					class="form-control" rows="2" id="itemAlias" disabled />
+			</div>
 
 			<input type="hidden" th:field="*{itemId}" />
-			<button class="btn btn-primary" type="submit">Save</button>
+			<div class="col-12">
+				<button class="btn btn-primary" type="submit">Save</button>
+			</div>
 		</form>
 		<hr />
 		<a th:href="@{items}"> Back to list</a>

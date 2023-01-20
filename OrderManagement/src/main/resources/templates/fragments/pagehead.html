@@ -5,8 +5,7 @@
 		href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/datatables.min.css" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script type="text/javascript" th:src="@{/js/tts.js}"></script>
-	<script type="text/javascript" th:src="@{/js/stt.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/userstyle.css}" />
 	<style>
 		.button {
 
@@ -34,7 +33,7 @@
 </head>
 
 <body>
-	<div class="widepage">
+<div class="topcontainer">
 		<div sec:authorize="isAuthenticated()">
 			<table style="width: 100%;clear:both">
 				<colgroup>
@@ -74,13 +73,14 @@
 				</tbody>
 			</table>
 		</div>
-	</div>
+
 	<form method="get" id="logout">
 		<input type="hidden" name="logout" value="Logout" />
 	</form>
 	<form id="home">
 		<input type="hidden" name="home" value="Home" />
 	</form>
+	</div>
 </body>
 
 </html>

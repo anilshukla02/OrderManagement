@@ -14,6 +14,7 @@ import com.nirmalyalabs.voicerecognition.Repository.opsRepository;
 import com.nirmalyalabs.voicerecognition.Service.ItemsService;
 import com.nirmalyalabs.voicerecognition.Service.OrdermasterService;
 import com.nirmalyalabs.voicerecognition.Service.opsService;
+import com.nirmalyalabs.voicerecognition.Utilities.General.GeneralUtilities;
 
 @Service
 public class opsServiceImpl implements opsService {
@@ -34,7 +35,8 @@ public class opsServiceImpl implements opsService {
 	}
 
 	@Override
-	public List<ops> saveOrder(List<ops> allitems, long custid) {
+	public long saveOrder(List<ops> allitems, long custid) {
+//	public List<ops> saveOrder(List<ops> allitems, long custid) {
 		Ordermaster ordermaster = new Ordermaster(custid);
 		ordermaster.setOrderId(allitems.get(0).getOrderItemsIdentity().getOrderId());
 
@@ -56,7 +58,8 @@ public class opsServiceImpl implements opsService {
 			orderitem.getOrderItemsIdentity().setOrderId(orderid);
 		}
 
-		return opsRepo.saveAll(allitems);
+		opsRepo.saveAll(allitems);
+		return orderid;
 	}
 
 	@Override
@@ -79,6 +82,7 @@ public class opsServiceImpl implements opsService {
 	@Override
 	public List<ops> getAllOrdersByOrderId(long orderId) {
 		return opsRepo.findByOrderItemsIdentityOrderId(orderId);
+		
 	}
 
 }

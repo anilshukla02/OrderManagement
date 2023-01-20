@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<div th:replace="fragments/pagehead"></div>
+	<div th:replace="fragments/pagehead"></div>
 	<div class="widepage">
 		<h2> Items List </h2>
 		<hr />
@@ -21,7 +21,8 @@
 				<tr>
 					<th>Item Id</th>
 					<th>Item Name</th>
-					<th>Item Description</th>
+					<th>Category</th>
+					<th>Description</th>
 					<th>Quantity</th>
 					<th>Action</th>
 
@@ -31,6 +32,7 @@
 				<tr th:each="item: ${items}">
 					<td th:text="${item.itemId}"></td>
 					<td th:text="${item.itemname}"></td>
+					<td th:text="${item.itemCat}"></td>
 					<td th:text="${item.description}"></td>
 					<td th:text="${item.qty}"></td>
 					<td>

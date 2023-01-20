@@ -9,7 +9,7 @@ public interface opsService {
 	public List<ops> getAllOrders();
 	public List<ops> getAllOrdersByOrderId(long orderId);
 
-	public List<ops> saveOrder(List<ops> allitems, long custid);
+	public long saveOrder(List<ops> allitems, long custid);
 
 	public Boolean validateOrderItems(List<ops> allitems);
 

@@ -1,5 +1,6 @@
 package com.nirmalyalabs.voicerecognition.Entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,10 +24,12 @@ public class ItemMaster {
 	// @Column(name="item_name", nullable=false)
 	private String itemname;
 
+	@Column(length = 6000)
 	private String itemAlias;
 	private String description;
 
 	private int qty;
+	private String itemCat;
 
 	public long getItemId() {
 		return itemId;
@@ -68,10 +71,22 @@ public class ItemMaster {
 		this.qty = qty;
 	}
 
+	
+	
+	public String getItemCat() {
+		return itemCat;
+	}
+
+	public void setItemCat(String itemCat) {
+		this.itemCat = itemCat;
+	}
+
 	@Override
 	public String toString() {
-		return "ItemMaster [itemId=" + itemId + ", itemName=" + itemname + ", description=" + description + ", qty="
-				+ qty + "]";
+		return "ItemMaster [itemId=" + itemId + ", itemname=" + itemname + ", itemAlias=" + itemAlias + ", description="
+				+ description + ", qty=" + qty + ", itemCat=" + itemCat + "]";
 	}
+
+
 
 }

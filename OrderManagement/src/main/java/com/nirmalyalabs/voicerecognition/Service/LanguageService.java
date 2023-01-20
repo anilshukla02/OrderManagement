@@ -8,4 +8,5 @@ import com.nirmalyalabs.voicerecognition.Entity.language;
 public interface LanguageService {
 
 	public List<language> getAllLanguages();
+	public List<String> getAllSupportedLangCodes();
 }

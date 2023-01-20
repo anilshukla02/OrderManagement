@@ -11,8 +11,11 @@
 </head>
 
 <body>
-	<div th:replace="fragments/pagehead"></div>
+
+			<div th:replace="fragments/pagehead"></div>
+
 	<div class="container">
+
 		<div class="form-group">
 			<h2 style="width:60%; float:left;color:green;margin-bottom:0%"> Order Management </h2>
 			<div style="width:25%; float:right;margin-right:0%;margin-bottom:0%">
@@ -29,7 +32,7 @@
 					<div sec:authorize="hasAuthority('ADMIN')">
 						<th>Administration</th>
 					</div>
-					<div sec:authorize="hasAuthority('USER')">
+					<div sec:authorize="hasAnyAuthority('ADMIN','USER')">
 						<th>Transaction</th>
 					</div>
 
@@ -40,7 +43,7 @@
 					<div sec:authorize="hasAuthority('ADMIN')">
 						<td><a href="/api/users">User Administration</a></td>
 					</div>
-					<div sec:authorize="hasAuthority('USER')">
+					<div sec:authorize="hasAnyAuthority('ADMIN','USER')">
 						<td><a href="/api/orders">Orders</a></td>
 					</div>
 				</tr>
@@ -48,7 +51,7 @@
 					<div sec:authorize="hasAuthority('SUPER-ADMIN')">
 						<td><a href="#">Company Configuration</a></td>
 					</div>
-					<div sec:authorize="hasAuthority('USER')">
+					<div sec:authorize="hasAnyAuthority('ADMIN','USER')">
 						<td><a href="/api/items">Items</a></td>
 					</div>
 				</tr>
@@ -61,5 +64,12 @@
 			</tbody>
 
 		</table>
+
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			var preflang = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.principal.preflang}]]*/ 'en-IN';
+			/*]]>*/
+			localStorage.setItem('userLang', preflang);
+		</script>
 
 </html>

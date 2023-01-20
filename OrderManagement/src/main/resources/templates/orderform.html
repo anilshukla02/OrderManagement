@@ -7,6 +7,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/tts.js}"></script>
 	<script type="text/javascript" th:src="@{/js/stt.js}"></script>
+	<script type="text/javascript" th:src="@{/js/translate.js}"></script>
 	<link th:href="@{/css/style.css}" rel="stylesheet" />
 </head>
 
@@ -25,8 +26,8 @@
 						th:utext="|${customer.custname}|"
 						th:selected="${customer.custname}==${myorderitems.customername}"></option>
 					</select>
-					
-					<button  type="button" class="btn btn-secondary btn-sm" id="toggle">Toggle listening</button>
+
+					<button type="button" class="btn btn-secondary btn-sm" id="toggle">Toggle listening</button>
 					<code id="result">live transcript here ...</code>
 				</div>
 
@@ -66,10 +67,16 @@
 							</td>
 
 						</tr>
-						<script>
-							if (hasInvalidItem) {speak("Items in Yellow are not in our database");} 
-						</script>
 
+						<span id="mylang" th:value="${#authentication.getPrincipal().getPreflang()}"></span>
+						<p id="inform-text" hidden> Items in Yellow are not in our database</p>
+						<script th:inline="javascript">
+							if (hasInvalidItem) {
+								var text = document.getElementById("inform-text").innerText;
+								var tolang = document.getElementById("mylang").innerText;
+								var translatedText = translateMessage(text, 'en-IN', tolang, "inform-text");
+							}
+						</script>
 					</tbody>
 				</table>
 
